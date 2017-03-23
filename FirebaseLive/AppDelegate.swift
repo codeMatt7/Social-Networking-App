@@ -2,21 +2,38 @@
 //  AppDelegate.swift
 //  FirebaseLive
 //
-//  Created by Frezy Mboumba on 1/15/17.
-//  Copyright © 2017 Frezy Mboumba. All rights reserved.
+//  Created by Matthew Houston on 1/15/17.
+//  Copyright © 2017 Matthew Houston. All rights reserved.
 //
 
 import UIKit
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    
+    override init() {
+        super.init()
+        FIRApp.configure()
+    }
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        takeToHome()
+    
         return true
+    }
+    
+    func takeToHome() {
+        if FIRAuth.auth()!.currentUser != nil {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let homeVC = storyboard.instantiateViewController(withIdentifier: "home") as! HomeViewController
+            self.window?.rootViewController = homeVC
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
